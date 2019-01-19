@@ -79,17 +79,17 @@ class WaypointUpdater(object):
         lane = Lane()
         lane.header = self.base_waypoints.header
         lane.waypoints = self.base_waypoints.waypoints[closest_idx:closest_idx + LOOKAHEAD_WPS]
-	self.final_waypoints_pub.publish(lane) 
+        self.final_waypoints_pub.publish(lane)
 
     def pose_cb(self, msg):
-	self.pose = msg
+        self.pose = msg
         
 
     def waypoints_cb(self, waypoints):
-	self.base_waypoints = waypoints
-	if not self.waypoints_2d:
+        self.base_waypoints = waypoints
+        if not self.waypoints_2d:
             self.waypoints_2d = []
-	    for waypoint in waypoints.waypoints:
+            for waypoint in waypoints.waypoints:
                 self.waypoints_2d.append([waypoint.pose.pose.position.x, waypoint.pose.pose.position.y])
             self.waypoint_tree = KDTree(self.waypoints_2d)
 
