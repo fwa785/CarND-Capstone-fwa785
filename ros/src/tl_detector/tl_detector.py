@@ -149,7 +149,7 @@ class TLDetector(object):
 
         """
         light = None
-        light_wp = None
+        light_wp = -1
 
         # List of positions that correspond to the line to stop in front of for a given intersection
         stop_line_positions = self.config['stop_line_positions']
@@ -160,11 +160,12 @@ class TLDetector(object):
             closest_diff = len(self.waypoints_2d)
             for i in range(len(stop_line_positions)):
                 stop_line = stop_line_positions[i]
-                light_wp = self.get_closest_waypoint(stop_line[0], stop_line[1])
-                diff = light_wp - car_position
+                stop_line_position = self.get_closest_waypoint(stop_line[0], stop_line[1])
+		diff = stop_line_position - car_position
                 if (diff >= 0) and (diff < closest_diff):
                     closest_diff = diff
                     light = self.lights[i]
+                    light_wp = stop_line_position
 
         if light:
             state = self.get_light_state(light)
